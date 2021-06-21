@@ -10,57 +10,49 @@ import com.egg.libreria.mylibreria.entidades.Autor;
 import com.egg.libreria.mylibreria.excepciones.ExcepcionServicio;
 import com.egg.libreria.mylibreria.repositorios.AutorRepositorio;
 
-
 @Service
 public class AutorServicio {
 
-    @Autowired
-    private AutorRepositorio autorRepositorio;
-    
+	@Autowired
+	private AutorRepositorio autorRepositorio;
 
-    public Autor crearAutor(Autor autor) {
+	public Autor crearAutor(Autor autor) {
 
-        return autorRepositorio.save(autor);
-    }
+		return autorRepositorio.save(autor);
+	}
 
-    public void modificarNombreAutor(Long id, String nombre) throws ExcepcionServicio {
+	public void modificarNombreAutor(Long id, String nombre) throws ExcepcionServicio {
 
-        Optional<Autor> respuesta = autorRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            Autor a1 = respuesta.get();
-            a1.setNombre(nombre);
-            autorRepositorio.save(a1);
-        } else {
-            throw new ExcepcionServicio("no se encontro el Autor");
-        }
+		Optional<Autor> respuesta = autorRepositorio.findById(id);
+		if (respuesta.isPresent()) {
+			Autor a1 = respuesta.get();
+			a1.setNombre(nombre);
+			autorRepositorio.save(a1);
+		} else {
+			throw new ExcepcionServicio("no se encontro el Autor");
+		}
 
-    }
+	}
 
-    public void eliminarAutor(Long id) throws ExcepcionServicio {
+	public boolean eliminarAutor(Long id){
 
-        Optional<Autor> respuesta = autorRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            Autor a1 = respuesta.get();
-            autorRepositorio.delete(a1);
-        } else {
-            throw new ExcepcionServicio("no se encontro el Autor");
-        }
-    }
+		try {
 
-    public Autor buscarAutor(Long id) throws ExcepcionServicio{
+			autorRepositorio.deleteById(id);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-        Optional<Autor> respuesta = autorRepositorio.findById(id);
-        if (respuesta.isPresent()) {
-            
-            return respuesta.get();
-        } else {
-            throw new ExcepcionServicio("no se encontro el Autor");
-        }
-    }
+	public Optional<Autor> obtenerAutor(Long id) {
 
-    public List<Autor> listarAutores() {
+		return autorRepositorio.findById(id);
+	}
 
-        return autorRepositorio.findAll();
-    }
+	public List<Autor> listarAutores() {
+
+		return autorRepositorio.findAll();
+	}
 
 }
