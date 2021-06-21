@@ -2,47 +2,55 @@ package com.egg.libreria.mylibreria.entidades;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "autor")
 public class Autor implements Serializable {
    
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
     
+    @NotNull(message = "ingrese su nombre")
     private String nombre;
 
     public Autor() {
     }
+    
+    
 
-    public Autor(String id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-    }
+	public Autor(Long id, String nombre) {
+		this.id = id;
+		this.nombre = nombre;
+	}
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public String getNombre() {
-        return nombre;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @Override
-    public String toString() {
-        return "Autor{" + "id=" + id + ", nombre=" + nombre + '}';
-    }
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
     
     
 }
