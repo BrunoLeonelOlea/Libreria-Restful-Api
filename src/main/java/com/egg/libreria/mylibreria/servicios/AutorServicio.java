@@ -21,33 +21,42 @@ public class AutorServicio {
 		return autorRepositorio.save(autor);
 	}
 
-	public void modificarNombreAutor(Long id, String nombre) throws ExcepcionServicio {
-
-		Optional<Autor> respuesta = autorRepositorio.findById(id);
-		if (respuesta.isPresent()) {
-			Autor a1 = respuesta.get();
-			a1.setNombre(nombre);
-			autorRepositorio.save(a1);
-		} else {
-			throw new ExcepcionServicio("no se encontro el Autor");
+	public Autor editarAutor(Long id, Autor autor) throws Exception{
+		try {
+			Optional<Autor> autorOpcional = autorRepositorio.findById(id);
+			Autor autor1 = autorOpcional.get();
+			autor1 = autorRepositorio.save(autor);
+			return autor1;
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
 		}
+		
 
 	}
 
-	public boolean eliminarAutor(Long id){
+	public boolean eliminarAutor(Long id) throws Exception{
 
 		try {
 
-			autorRepositorio.deleteById(id);
-			return true;
+			if(autorRepositorio.existsById(id)) {
+				autorRepositorio.deleteById(id);
+				return true;
+			} else {
+				throw new Exception();
+			}
 		} catch (Exception e) {
-			return false;
+			throw new Exception(e.getMessage());
 		}
 	}
 
-	public Optional<Autor> obtenerAutor(Long id) {
+	public Autor obtenerAutor(Long id) throws Exception{
 
-		return autorRepositorio.findById(id);
+		try {
+			Optional<Autor> autorOptional = autorRepositorio.findById(id);
+			return autorOptional.get();
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
 	public List<Autor> listarAutores() {
