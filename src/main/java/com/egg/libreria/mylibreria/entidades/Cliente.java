@@ -1,13 +1,12 @@
 package com.egg.libreria.mylibreria.entidades;
 
-import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Cliente implements Serializable {	
+public class Cliente {	
 
     @Id
     @GeneratedValue	

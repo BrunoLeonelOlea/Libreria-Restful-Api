@@ -15,57 +15,51 @@ public class ClienteServicio {
 
     @Autowired
     private ClienteRepositorio clienteRepositorio;
-
-    public void crearCliente(long documento, String nombre, String apellido, String domicilio, String telefono) throws Exception {
-
-        validar(documento, nombre, apellido, domicilio, telefono);
-
-        Cliente cliente = new Cliente();
-
-        cliente.setDocumento(documento);
-        cliente.setNombre(nombre);
-        cliente.setApellido(apellido);
-        cliente.setDomicilio(domicilio);
-        cliente.setTelefono(telefono);
-
-        clienteRepositorio.save(cliente);
-
+    
+    public List<Cliente> listarClientes() {
+        return clienteRepositorio.findAll();
     }
 
-    public void modificarCliente(long documento, String nombre, String apellido, String domicilio, String telefono) throws ExcepcionServicio {
 
-        validar(documento, nombre, apellido, domicilio, telefono);
+    public Cliente crearCliente(Cliente cliente) throws Exception {
+    	try {
+    		 return clienteRepositorio.save(cliente);
+    		 
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
+       
+    }
+
+    public Cliente modificarCliente(long documento, Cliente cliente) throws ExcepcionServicio {
+
 
         Optional<Cliente> oCliente = clienteRepositorio.findById(documento);
         if (oCliente.isPresent()) {
-            Cliente cliente = oCliente.get();
-            
-            cliente.setNombre(nombre);
-            cliente.setApellido(apellido);
-            cliente.setDomicilio(domicilio);
-            cliente.setTelefono(telefono);
-
-            clienteRepositorio.save(cliente);
+            Cliente cliente1 = oCliente.get();
+            cliente1 = clienteRepositorio.save(cliente);
+            return cliente1;
         } else {
             throw new ExcepcionServicio("El id no esta relacionado a ningun cliente en la base de datos");
         }
 
     }
     
-    public void eliminarCliente(long documento) throws ExcepcionServicio{
+    public Cliente eliminarCliente(long documento) throws ExcepcionServicio{
         
         Optional<Cliente> oCliente = clienteRepositorio.findById(documento);
         if (oCliente.isPresent()) {
             Cliente cliente = oCliente.get();
 
             clienteRepositorio.delete(cliente);
+            return cliente;
         } else {
             throw new ExcepcionServicio("El id no esta relacionado a ningun cliente en la base de datos");
         }
 
     }
 
-    // por el ID
+ 
     public Cliente buscarCliente(long documento) throws ExcepcionServicio{
         
         Optional<Cliente> oCliente = clienteRepositorio.findById(documento);
@@ -78,28 +72,5 @@ public class ClienteServicio {
     }
 
 
-    public List<Cliente> listarClientes() {
-        return clienteRepositorio.findAll();
-    }
-
-    public void validar(long documento, String nombre, String apellido, String domicilio, String telefono) throws ExcepcionServicio {
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new ExcepcionServicio("debe ingresar un nombre");
-        }
-
-        if (apellido == null || apellido.trim().isEmpty()) {
-            throw new ExcepcionServicio("debe ingresar un apellido");
-        }
-
-        if (domicilio == null || domicilio.trim().isEmpty()) {
-            throw new ExcepcionServicio("debe ingresar un domicilio");
-        }
-        if (telefono == null || telefono.trim().isEmpty()) {
-            throw new ExcepcionServicio("debe ingresar un telefono");
-        }
-        if (buscarCliente(documento) != null) {
-            throw new ExcepcionServicio("El cliente ya existe");
-        }
-
-    }
+   
 }

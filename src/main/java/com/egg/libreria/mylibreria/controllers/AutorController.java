@@ -1,4 +1,4 @@
-package com.egg.libreria.mylibreria.controladores;
+package com.egg.libreria.mylibreria.controllers;
 
 
 import javax.validation.Valid;
