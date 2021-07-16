@@ -19,7 +19,7 @@ import com.egg.libreria.mylibreria.entidades.Autor;
 import com.egg.libreria.mylibreria.servicios.AutorServicio;
 
 @RestController
-@RequestMapping(path = "/autores/")
+@RequestMapping(path = "/autores")
 public class AutorController {
 	
 	@Autowired

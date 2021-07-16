@@ -1,12 +1,10 @@
 package com.egg.libreria.mylibreria.entidades;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Editorial implements Serializable {
+public class Editorial {
     
     @Id
     private String id;

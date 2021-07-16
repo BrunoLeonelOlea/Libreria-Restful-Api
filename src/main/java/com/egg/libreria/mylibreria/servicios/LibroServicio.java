@@ -10,60 +10,38 @@ import com.egg.libreria.mylibreria.entidades.Libro;
 import com.egg.libreria.mylibreria.excepciones.ExcepcionServicio;
 import com.egg.libreria.mylibreria.repositorios.LibroRepositorio;
 
-//servicios = reglas de negocio = crud
 @Service
 public class LibroServicio {
 
     @Autowired
     private LibroRepositorio libroRepositorio;
-
-    public void crearLibro(long isbn, String titulo, int anio, int ejemplares, int prestados) throws Exception {
-        
-        Libro libro = new Libro();
-
-        libro.setIsbn(isbn);
-        libro.setTitulo(titulo);
-        libro.setAnio(anio);
-        libro.setEjemplares(ejemplares);
-        libro.setPrestados(prestados);
-
-        libroRepositorio.save(libro);
-
-    }
-
-    public void modificarLibro(long isbn, String titulo, int anio, int ejemplares, int prestados) throws ExcepcionServicio {
-
-
-        Optional<Libro> oLibro = libroRepositorio.findById(isbn);
-        if (oLibro.isPresent()) {
-            Libro libro = oLibro.get();
-            
-            libro.setTitulo(titulo);
-            libro.setAnio(anio);
-            libro.setEjemplares(ejemplares);
-            libro.setPrestados(prestados);
-
-            libroRepositorio.save(libro);
-        } else {
-            throw new ExcepcionServicio("El id no esta relacionado a ningun libro en la base de datos");
-        }
-
-    }
     
-    public void eliminarLibro(long isbn) throws ExcepcionServicio{
-        
+    public List<Libro> listarLibros() {
+        return libroRepositorio.findAll();
+    }
+
+    public Libro crearLibro(Libro libro) throws Exception {
+        return libroRepositorio.save(libro);
+    }
+
+    public Libro modificarLibro(long isbn, Libro libro) throws ExcepcionServicio {
+
         Optional<Libro> oLibro = libroRepositorio.findById(isbn);
         if (oLibro.isPresent()) {
-            Libro libro = oLibro.get();
+            Libro libro1 = oLibro.get();
+            
+            libro1.setTitulo(libro.getTitulo());
+            libro1.setAnio(libro.getAnio());
+            libro1.setEjemplares(libro.getEjemplares());
+            libro1.setPrestados(libro.getPrestados());
 
-            libroRepositorio.delete(libro);
+            return libroRepositorio.save(libro);
         } else {
             throw new ExcepcionServicio("El id no esta relacionado a ningun libro en la base de datos");
         }
 
     }
 
-    // por el ID
     public Libro buscarLibro(long isbn) throws ExcepcionServicio{
         
         Optional<Libro> oLibro = libroRepositorio.findById(isbn);
@@ -76,10 +54,19 @@ public class LibroServicio {
     }
 
 
-    public List<Libro> listarLibros() {
-        return libroRepositorio.findAll();
-    }
-
    
+
+//  public void eliminarLibro(long isbn) throws ExcepcionServicio{
+//  
+//  Optional<Libro> oLibro = libroRepositorio.findById(isbn);
+//  if (oLibro.isPresent()) {
+//      Libro libro = oLibro.get();
+//
+//      libroRepositorio.delete(libro);
+//  } else {
+//      throw new ExcepcionServicio("El id no esta relacionado a ningun libro en la base de datos");
+//  }
+//
+//}
 
 }

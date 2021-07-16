@@ -40,7 +40,7 @@ public class ClienteController {
 		}
 	}
 	
-	@PostMapping(path = "/{id}")
+	@PostMapping(path = "")
 	ResponseEntity<?> addCliente(@RequestBody Cliente cliente){
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(clienteServicio.crearCliente(cliente));

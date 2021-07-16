@@ -1,24 +1,23 @@
 package com.egg.libreria.mylibreria.entidades;
 
-import java.io.Serializable;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
 
 @Entity
-public class Libro implements Serializable {
+public class Libro {
 
     @Id
     private long isbn;
 
-    @NotBlank(message = "ingrese un titulo")
+    @Column(nullable = false)
     private String titulo;
 
-    @Past
     private int anio;
 
     @Positive
@@ -28,8 +27,11 @@ public class Libro implements Serializable {
     private int prestados;
 
     @ManyToOne
+    @JoinColumn(name = "autor_id")
     private Autor autor;
+    
     @ManyToOne
+    @JoinColumn(name = "editorial_id")
     private Editorial editorial;
 
     public Libro() {

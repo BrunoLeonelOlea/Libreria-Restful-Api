@@ -1,6 +1,5 @@
 package com.egg.libreria.mylibreria.entidades;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -12,7 +11,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.PastOrPresent;
 
 @Entity
-public class Prestamo implements Serializable {
+public class Prestamo {
 
     @Id
     private String id;

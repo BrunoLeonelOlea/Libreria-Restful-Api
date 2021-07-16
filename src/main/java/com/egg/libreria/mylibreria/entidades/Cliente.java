@@ -2,14 +2,12 @@ package com.egg.libreria.mylibreria.entidades;
 
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Cliente {	
 
     @Id
-    @GeneratedValue	
     private long documento;
     
     private String nombre;
